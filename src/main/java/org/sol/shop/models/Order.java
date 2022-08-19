@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class Order {
 
-    private Long id, user_id;
+    private Long id, userId;
     private OrderStatus status;
     private HashMap<Product, Long> orderProducts; // Product: Count
 
-    public Order(Long id, Long user_id, OrderStatus status) {
+    public Order(Long id, Long userId, OrderStatus status) {
         this.id = id;
-        this.user_id = user_id;
+        this.userId = userId;
         this.status = status;
     }
 
@@ -22,8 +22,8 @@ public class Order {
         return id;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
     public OrderStatus getStatus() {
@@ -38,13 +38,13 @@ public class Order {
         Order order = (Order) o;
 
         if (!id.equals(order.id)) return false;
-        return user_id.equals(order.user_id);
+        return userId.equals(order.userId);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + user_id.hashCode();
+        result = 31 * result + userId.hashCode();
         return result;
     }
 
