@@ -4,7 +4,11 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
-        Application.init();
+        try {
+            Application.init();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 //        try{
 //            Connection c = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "sa");
 //            var result = c.createStatement().executeUpdate("CREATE TABLE USERS(ID INT PRIMARY KEY, NAME VARCHAR(255))");

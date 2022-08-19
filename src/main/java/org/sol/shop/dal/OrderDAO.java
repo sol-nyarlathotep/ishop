@@ -4,12 +4,29 @@ import org.sol.shop.models.Order;
 
 import java.util.List;
 
-public interface OrderDAO {
+public class OrderDAO implements IOrderDAO{
+    @Override
+    public Order findById(Long id) {
+        return null;
+    }
 
-    Order findById(Long id);
-    void save(Order order);
-    void update(Order order);
-    void delete(Order order);
-    List<Order> findAll();
+    @Override
+    public void save(Order order) {
 
+    }
+
+    @Override
+    public void update(Order order) {
+
+    }
+
+    @Override
+    public void delete(Order order) {
+
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return null;
+    }
 }

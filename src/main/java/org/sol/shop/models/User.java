@@ -8,7 +8,7 @@ public class User {
     private Long id;
     private String login, password;
     private boolean isAdmin, blocked;
-    private HashMap<Product, Long> userProductsBasket; // Product: Count
+    private HashMap<Product, Long> userCart; // Product: Count
     private List<Order> userOrders = new ArrayList<>();
 
     public User(Long id, String login, String password, boolean isAdmin, boolean blocked) {
@@ -19,30 +19,37 @@ public class User {
         this.blocked = blocked;
     }
 
+    public User(String login, String password, boolean isAdmin, boolean blocked) {
+        this.login = login;
+        this.password = password;
+        this.isAdmin = isAdmin;
+        this.blocked = blocked;
+    }
+
     public void addToOrders(Order order){
         userOrders.add(order);
     }
 
-    public void addToBasket(Product product, Long count){
-        userProductsBasket.put(product, count);
+    public void addToCart(Product product, Long count){
+        userCart.put(product, count);
     }
 
-    public void removeFromBasket(Product product, Long count){
-        if(!userProductsBasket.containsKey(product)){
+    public void removeFromCart(Product product, Long count){
+        if(!userCart.containsKey(product)){
             throw new RuntimeException("This product is not in the cart");
         }
         if (count < 1){
             throw new IllegalArgumentException("Count must be gte 1");
         }
-        Long productCount = userProductsBasket.get(product);
+        Long productCount = userCart.get(product);
         if (count > productCount){
             throw new IllegalArgumentException("The count must not exceed the count of product in the cart");
         }
         if (count.equals(productCount)){
-            userProductsBasket.remove(product);
+            userCart.remove(product);
             return;
         }
-        userProductsBasket.replace(product, productCount-count);
+        userCart.replace(product, productCount-count);
     }
 
     public Long getId() {
