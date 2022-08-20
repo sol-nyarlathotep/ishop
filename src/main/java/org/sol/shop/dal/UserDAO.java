@@ -21,55 +21,48 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Long id) throws SQLException {
         User user = null;
-        try {
-            selectPreparedSt.setLong(1, id);
-            boolean hasResult = selectPreparedSt.execute();
-            if (hasResult){
-                ResultSet rs = selectPreparedSt.getResultSet();
-                rs.next();
-                String userLogin = rs.getString("login");
-                String userPassword = rs.getString("password");
-                Boolean userIsAdmin = rs.getBoolean("is_admin");
-                Boolean userIsBlocked = rs.getBoolean("blocked");
-                user = new User(id, userLogin, userPassword, userIsAdmin, userIsBlocked);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        selectPreparedSt.setLong(1, id);
+        boolean hasResult = selectPreparedSt.execute();
+        if (hasResult){
+            ResultSet rs = selectPreparedSt.getResultSet();
+            rs.next();
+            String userLogin = rs.getString("login");
+            String userPassword = rs.getString("password");
+            Boolean userIsAdmin = rs.getBoolean("is_admin");
+            Boolean userIsBlocked = rs.getBoolean("blocked");
+            user = new User(id, userLogin, userPassword, userIsAdmin, userIsBlocked);
         }
         return user;
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user) throws SQLException {
         var userLogin = user.getLogin();
         var userPwd = user.getPassword();
         var userIsAdmin = user.isAdmin();
         var userIsBlocked = user.isBlocked();
-        try {
-            insertPreparedSt.setString(1, userLogin);
-            insertPreparedSt.setString(2, userPwd);
-            insertPreparedSt.setBoolean(3, userIsAdmin);
-            insertPreparedSt.setBoolean(4, userIsBlocked);
-            insertPreparedSt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+        insertPreparedSt.setString(1, userLogin);
+        insertPreparedSt.setString(2, userPwd);
+        insertPreparedSt.setBoolean(3, userIsAdmin);
+        insertPreparedSt.setBoolean(4, userIsBlocked);
+        insertPreparedSt.executeUpdate();
     }
 
     @Override
-    public void update(User user) {
-
-    }
-
-    @Override
-    public void delete(User user) {
+    public void update(User user) throws SQLException {
 
     }
 
     @Override
-    public List<User> findAll() {
+    public void delete(User user) throws SQLException {
+
+    }
+
+    @Override
+    public List<User> findAll() throws SQLException {
         return null;
     }
 }

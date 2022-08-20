@@ -3,8 +3,10 @@ package org.sol.shop.dal;
 import org.sol.shop.models.Product;
 import org.sol.shop.utils.DBUtils;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,27 +22,62 @@ public class ProductDAO implements IProductDAO{
     }
 
     @Override
-    public Product findById(Long id) {
-        return null;
+    public Product findById(Long id) throws SQLException {
+        Product product = null;
+        selectPreparedSt.setLong(1, id);
+        boolean hasResult = selectPreparedSt.execute();
+        if(hasResult){
+            ResultSet rs = selectPreparedSt.getResultSet();
+            rs.next();
+            BigDecimal productPrice = rs.getBigDecimal("price");
+            String productName = rs.getString("name");
+            String productDescription = rs.getString("description");
+            Long productStockCount = rs.getLong("stock_count");
+            product = new Product(id, productStockCount, productName, productDescription, productPrice);
+        }
+        return product;
     }
 
     @Override
-    public void save(Product product) {
-
+    public void save(Product product) throws SQLException {
+        var productPrice = product.getPrice();
+        var productName = product.getName();
+        var productDescription = product.getDescription();
+        var productStockCount = product.getStockCount();
+        insertPreparedSt.setBigDecimal(1, productPrice);
+        insertPreparedSt.setString(2, productName);
+        insertPreparedSt.setString(3, productDescription);
+        insertPreparedSt.setLong(4, productStockCount);
+        insertPreparedSt.executeUpdate();
     }
 
     @Override
-    public void update(Product product) {
-
+    public void update(Product product) throws SQLException {
+        Product pr = findById(product.getId());
+        if (pr == null){
+            throw new RuntimeException("Errors occurred while find this object");
+        }
+        // price=1, name=2, description=3, stock_count=4
+        updatePreparedSt.setLong(5, product.getId()); // ID
+        updatePreparedSt.setBigDecimal(1, product.getPrice()); // price
+        updatePreparedSt.setString(2, product.getName()); // name
+        updatePreparedSt.setString(3, product.getDescription()); // Desc
+        updatePreparedSt.setLong(4, product.getStockCount());
+        updatePreparedSt.executeUpdate();
     }
 
     @Override
-    public void delete(Product product) {
-
+    public void delete(Product product) throws SQLException {
+        Product pr = findById(product.getId());
+        if(pr == null){
+            throw new RuntimeException("Errors occurred while find this object");
+        }
+        deletePreparedSt.setLong(1, product.getId());
+        deletePreparedSt.executeUpdate();
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll() throws SQLException {
         return null;
     }
 }
