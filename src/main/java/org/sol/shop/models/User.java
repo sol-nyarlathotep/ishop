@@ -19,12 +19,24 @@ public class User {
         this.blocked = blocked;
     }
 
+    public User(Long id, String login, String password, boolean isAdmin, boolean blocked, HashMap<Product, Long> userCart, List<Order> userOrders) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.isAdmin = isAdmin;
+        this.blocked = blocked;
+        this.userCart = userCart;
+        this.userOrders = userOrders;
+    }
+
     public User(String login, String password, boolean isAdmin, boolean blocked) {
         this.login = login;
         this.password = password;
         this.isAdmin = isAdmin;
         this.blocked = blocked;
     }
+
+
 
     public void addToOrders(Order order){
         userOrders.add(order);

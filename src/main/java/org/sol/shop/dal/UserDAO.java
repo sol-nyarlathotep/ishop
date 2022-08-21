@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDAO implements IUserDAO{
-
     private Connection con = DBUtils.getConnection();
     private PreparedStatement insertPreparedSt = con.prepareStatement("INSERT INTO users (login, password, is_admin, blocked) VALUES (?,?,?,?)");
     private PreparedStatement selectPreparedSt = con.prepareStatement("SELECT * FROM users WHERE id=?");
@@ -53,12 +52,31 @@ public class UserDAO implements IUserDAO{
 
     @Override
     public void update(User user) throws SQLException {
-
+        User u = findById(user.getId());
+        if (u == null){
+            throw new RuntimeException("Errors occurred while find this object");
+        }
+        // login=?, password=?, is_admin=?, blocked=? WHERE id=?
+        var userLogin = user.getLogin();
+        var userPassword = user.getPassword();
+        var userIsAdmin = user.isAdmin();
+        var userIsBlocked = user.isBlocked();
+        updatePreparedSt.setLong(5, user.getId());
+        updatePreparedSt.setString(1, userLogin);
+        updatePreparedSt.setString(2, userPassword);
+        updatePreparedSt.setBoolean(3, userIsAdmin);
+        updatePreparedSt.setBoolean(4, userIsBlocked);
+        updatePreparedSt.executeUpdate();
     }
 
     @Override
     public void delete(User user) throws SQLException {
-
+        User u = findById(user.getId());
+        if (u == null){
+            throw new RuntimeException("Errors occurred while find this object");
+        }
+        deletePreparedSt.setLong(1, user.getId());
+        deletePreparedSt.executeUpdate();
     }
 
     @Override

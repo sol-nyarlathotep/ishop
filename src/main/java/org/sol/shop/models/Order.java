@@ -2,7 +2,7 @@ package org.sol.shop.models;
 
 import java.util.HashMap;
 
-public class Order {
+public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
 
     private Long id, userId;
     private OrderStatus status;
@@ -53,6 +53,7 @@ public class Order {
         TRANSPORTING,
         CANCELLED,
         DELIVERED
+
     }
 
 }
