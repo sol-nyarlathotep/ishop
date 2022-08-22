@@ -4,16 +4,13 @@ import org.sol.shop.models.Product;
 import org.sol.shop.utils.DBUtils;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class ProductDAO implements IProductDAO{
 
     Connection con = DBUtils.getConnection();
-    private PreparedStatement insertPreparedSt = con.prepareStatement("INSERT INTO products (price, name, description, stock_count) VALUES(?,?,?,?)");
+    private PreparedStatement insertPreparedSt = con.prepareStatement("INSERT INTO products (price, name, description, stock_count) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
     private PreparedStatement selectPreparedSt = con.prepareStatement("SELECT * FROM products WHERE id=?");
     private PreparedStatement updatePreparedSt = con.prepareStatement("UPDATE products SET price=?, name=?, description=?, stock_count=? WHERE id=?");
     private PreparedStatement deletePreparedSt = con.prepareStatement("DELETE FROM products WHERE id=?");
@@ -28,12 +25,13 @@ public class ProductDAO implements IProductDAO{
         boolean hasResult = selectPreparedSt.execute();
         if(hasResult){
             ResultSet rs = selectPreparedSt.getResultSet();
-            rs.next();
-            BigDecimal productPrice = rs.getBigDecimal("price");
-            String productName = rs.getString("name");
-            String productDescription = rs.getString("description");
-            Long productStockCount = rs.getLong("stock_count");
-            product = new Product(id, productStockCount, productName, productDescription, productPrice);
+            if(rs.next()){
+                BigDecimal productPrice = rs.getBigDecimal("price");
+                String productName = rs.getString("name");
+                String productDescription = rs.getString("description");
+                Long productStockCount = rs.getLong("stock_count");
+                product = new Product(id, productStockCount, productName, productDescription, productPrice);
+            }
         }
         return product;
     }
@@ -48,7 +46,11 @@ public class ProductDAO implements IProductDAO{
         insertPreparedSt.setString(2, productName);
         insertPreparedSt.setString(3, productDescription);
         insertPreparedSt.setLong(4, productStockCount);
-        insertPreparedSt.executeUpdate();
+
+        insertPreparedSt.execute();
+        var rs = insertPreparedSt.getGeneratedKeys();
+        rs.next();
+        product.setId(rs.getLong(1));
     }
 
     @Override

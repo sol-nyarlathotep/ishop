@@ -14,12 +14,12 @@ public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
         this.status = status;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getUserId() {
@@ -28,6 +28,10 @@ public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
 
     public OrderStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     @Override

@@ -8,7 +8,7 @@ public class User {
     private Long id;
     private String login, password;
     private boolean isAdmin, blocked;
-    private HashMap<Product, Long> userCart; // Product: Count
+    private HashMap<Product, Long> userCart = new HashMap<>(); // Product: Count
     private List<Order> userOrders = new ArrayList<>();
 
     public User(Long id, String login, String password, boolean isAdmin, boolean blocked) {
@@ -19,16 +19,6 @@ public class User {
         this.blocked = blocked;
     }
 
-    public User(Long id, String login, String password, boolean isAdmin, boolean blocked, HashMap<Product, Long> userCart, List<Order> userOrders) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.isAdmin = isAdmin;
-        this.blocked = blocked;
-        this.userCart = userCart;
-        this.userOrders = userOrders;
-    }
-
     public User(String login, String password, boolean isAdmin, boolean blocked) {
         this.login = login;
         this.password = password;
@@ -36,13 +26,15 @@ public class User {
         this.blocked = blocked;
     }
 
-
-
     public void addToOrders(Order order){
         userOrders.add(order);
     }
 
     public void addToCart(Product product, Long count){
+        if(userCart.containsKey(product)){
+            userCart.replace(product, userCart.get(product)+count);
+            return;
+        }
         userCart.put(product, count);
     }
 
@@ -66,6 +58,26 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public HashMap<Product, Long> getUserCart() {
+        return userCart;
+    }
+
+    public void setUserCart(HashMap<Product, Long> userCart) {
+        this.userCart = userCart;
+    }
+
+    public List<Order> getUserOrders() {
+        return userOrders;
+    }
+
+    public void setUserOrders(List<Order> userOrders) {
+        this.userOrders = userOrders;
     }
 
     public String getLogin() {

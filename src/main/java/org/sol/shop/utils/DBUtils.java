@@ -12,9 +12,15 @@ public class DBUtils {
         try(Connection con = getConnection()) {
             Statement st = con.createStatement();
             // TODO: Refactor
+//            st.addBatch(
+//                    "DROP TABLE IF EXISTS `products`;\n" +
+//                    "DROP TABLE IF EXISTS `users`;\n" +
+//                    "DROP TABLE IF EXISTS `cart_products`;\n" +
+//                    "DROP TABLE IF EXISTS `orders`;\n" +
+//                    "DROP TABLE IF EXISTS `order_products`;");
             st.addBatch("CREATE TABLE IF NOT EXISTS `products` (\n" +
                     "  `id` bigint AUTO_INCREMENT NOT NULL,\n" +
-                    "  `price` bigint NOT NULL,\n" +
+                    "  `price` DECIMAL(12,2) NOT NULL,\n" +
                     "  `name` text NOT NULL,\n" +
                     "  `description` text NOT NULL,\n" +
                     "  `stock_count` bigint NOT NULL,\n" +
@@ -55,9 +61,14 @@ public class DBUtils {
 
     public static Connection getConnection() {
         HikariConfig config = new HikariConfig();
-        config.setUsername("sa");
-        config.setPassword("sa");
-        config.setJdbcUrl("jdbc:h2:mem:test");
+        config.setUsername("root");
+        config.setPassword("15451545");
+//        config.setUsername("sa");
+//        config.setPassword("sa");
+//        config.setJdbcUrl("jdbc:h2:mem:test");
+//        config.setJdbcUrl("jdbc:h2:D:/test");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/test?allowMultiQueries=true");
+//        config.setDriverClassName("com.mysql.jdbc.Driver");
         Connection con = null;
         try {
             con = new HikariDataSource(config).getConnection();

@@ -16,12 +16,14 @@ public class Product {
         this.price = price;
     }
 
-    public Product(Long stockCount, String name, String description, BigDecimal price) {
+    public Product(String name, String description, BigDecimal price, Long stockCount) {
         this.stockCount = stockCount;
         this.name = name;
         this.description = description;
         this.price = price;
     }
+
+
 
     public BigDecimal getPrice() {
         return price;
@@ -31,32 +33,36 @@ public class Product {
         this.price = price;
     }
 
-    public void setStockCount(Long stockCount) {
-        this.stockCount = stockCount;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getStockCount() {
         return stockCount;
     }
 
+    public void setStockCount(Long stockCount) {
+        this.stockCount = stockCount;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
