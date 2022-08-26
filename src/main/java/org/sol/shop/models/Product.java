@@ -1,12 +1,14 @@
 package org.sol.shop.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Product {
-
     private Long id, stockCount;
     private String name, description;
     private BigDecimal price;
+
+    // TODO: When Order has completed decrease the stockCount.
 
     public Product(Long id, Long stockCount, String name, String description, BigDecimal price) {
         this.id = id;
@@ -23,8 +25,6 @@ public class Product {
         this.price = price;
     }
 
-
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -34,6 +34,9 @@ public class Product {
     }
 
     public Long getId() {
+        if (id == null){
+            throw new RuntimeException("The product has not been saved to the database. ID is unavailable.");
+        }
         return id;
     }
 
@@ -72,11 +75,11 @@ public class Product {
 
         Product product = (Product) o;
 
-        return id.equals(product.id);
+        return getId().equals(product.getId());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return getId().hashCode();
     }
 }

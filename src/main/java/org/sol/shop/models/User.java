@@ -1,5 +1,6 @@
 package org.sol.shop.models;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ public class User {
     private String login, password;
     private boolean isAdmin, blocked;
     private HashMap<Product, Long> userCart = new HashMap<>(); // Product: Count
+
+    // TODO: Maybe make Set?
     private List<Order> userOrders = new ArrayList<>();
 
     public User(Long id, String login, String password, boolean isAdmin, boolean blocked) {
@@ -27,8 +30,17 @@ public class User {
     }
 
     public void addToOrders(Order order){
+        if (order.getOrderProducts().isEmpty()){
+            throw new RuntimeException("You cannot add an order that does not have products");
+        }
         userOrders.add(order);
     }
+
+
+    public void cleanCart() throws SQLException {
+        this.setUserCart(new HashMap<>());
+    }
+
 
     public void addToCart(Product product, Long count){
         if(userCart.containsKey(product)){
@@ -57,6 +69,9 @@ public class User {
     }
 
     public Long getId() {
+        if (id == null){
+            throw new RuntimeException("The user has not been saved to the database. ID is unavailable.");
+        }
         return id;
     }
 
@@ -119,11 +134,11 @@ public class User {
 
         User user = (User) o;
 
-        return id.equals(user.id);
+        return getId().equals(user.getId());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return getId().hashCode();
     }
 }

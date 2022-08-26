@@ -4,24 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="587a3faa-1fcc-48db-b327-bcb717ccc54c" name="Changes" comment="base alpha dal impl">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/EntityDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/Entity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IOrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IProductService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/ProductService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/UserService.java" afterDir="false" />
+    <list default="true" id="587a3faa-1fcc-48db-b327-bcb717ccc54c" name="Changes" comment="Some improvements and add some stuff.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IUserCartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/UserCartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/utils/HashUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/OrderDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/ProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/ProductDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/services/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/utils/DBUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/utils/DBUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/sol/shop/utils/serialization/EntitySerializator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/sol/shop/utils/serialization/EntitySerializator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -146,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661100445145</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Some improvements and add some stuff.">
+      <created>1661206830455</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1661206830455</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,26 +178,61 @@
     <MESSAGE value="Some implements and refactor." />
     <MESSAGE value="Add EntitySerializator" />
     <MESSAGE value="base alpha dal impl" />
-    <option name="LAST_COMMIT_MESSAGE" value="base alpha dal impl" />
+    <MESSAGE value="Some improvements and add some stuff." />
+    <option name="LAST_COMMIT_MESSAGE" value="Some improvements and add some stuff." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java</url>
-          <line>26</line>
+          <line>62</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java</url>
-          <line>122</line>
+          <line>167</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java</url>
+          <line>265</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/dal/UserDAO.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/Application.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="5" />
+          <line>42</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/sol/shop/dal/OrderDAO.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="7" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

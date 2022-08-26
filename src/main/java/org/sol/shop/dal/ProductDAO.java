@@ -5,15 +5,18 @@ import org.sol.shop.utils.DBUtils;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements IProductDAO{
 
     Connection con = DBUtils.getConnection();
-    private PreparedStatement insertPreparedSt = con.prepareStatement("INSERT INTO products (price, name, description, stock_count) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-    private PreparedStatement selectPreparedSt = con.prepareStatement("SELECT * FROM products WHERE id=?");
-    private PreparedStatement updatePreparedSt = con.prepareStatement("UPDATE products SET price=?, name=?, description=?, stock_count=? WHERE id=?");
-    private PreparedStatement deletePreparedSt = con.prepareStatement("DELETE FROM products WHERE id=?");
+    private final PreparedStatement insertPreparedSt = con.prepareStatement("INSERT INTO products (price, name, description, stock_count) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+    private final PreparedStatement selectPreparedSt = con.prepareStatement("SELECT * FROM products WHERE id=?");
+    private final PreparedStatement updatePreparedSt = con.prepareStatement("UPDATE products SET price=?, name=?, description=?, stock_count=? WHERE id=?");
+    private final PreparedStatement deletePreparedSt = con.prepareStatement("DELETE FROM products WHERE id=?");
+
+    private final PreparedStatement searchSpecificPreparedSt = con.prepareStatement("SELECT * FROM products WHERE name LIKE ?");
 
     public ProductDAO() throws SQLException {
     }
@@ -25,15 +28,32 @@ public class ProductDAO implements IProductDAO{
         boolean hasResult = selectPreparedSt.execute();
         if(hasResult){
             ResultSet rs = selectPreparedSt.getResultSet();
-            if(rs.next()){
-                BigDecimal productPrice = rs.getBigDecimal("price");
-                String productName = rs.getString("name");
-                String productDescription = rs.getString("description");
-                Long productStockCount = rs.getLong("stock_count");
-                product = new Product(id, productStockCount, productName, productDescription, productPrice);
-            }
+            var productsList = deserializeProducts(rs);
+            if(productsList.size() > 0)
+                product = productsList.get(0);
+//            if(rs.next()){
+//                BigDecimal productPrice = rs.getBigDecimal("price");
+//                String productName = rs.getString("name");
+//                String productDescription = rs.getString("description");
+//                Long productStockCount = rs.getLong("stock_count");
+//                product = new Product(id, productStockCount, productName, productDescription, productPrice);
+//            }
         }
         return product;
+    }
+
+    private List<Product> deserializeProducts(ResultSet rs) throws SQLException {
+        var resultList = new ArrayList<Product>();
+        while (rs.next()){
+            Long productId = rs.getLong("id");
+            BigDecimal productPrice = rs.getBigDecimal("price");
+            String productName = rs.getString("name");
+            String productDescription = rs.getString("description");
+            Long productStockCount = rs.getLong("stock_count");
+            var product = new Product(productId, productStockCount, productName, productDescription, productPrice);
+            resultList.add(product);
+        }
+        return resultList;
     }
 
     @Override
@@ -80,6 +100,23 @@ public class ProductDAO implements IProductDAO{
 
     @Override
     public List<Product> findAll() throws SQLException {
-        return null;
+        List<Product> productList = new ArrayList<>();
+        Statement selectAll = con.createStatement();
+        if(selectAll.execute("SELECT * FROM products")){
+            ResultSet rs = selectAll.getResultSet();
+            productList = deserializeProducts(rs);
+        }
+        return productList;
     }
+
+    public List<Product> searchSpecificByName(String searchQuery) throws SQLException{
+        List<Product> productList = new ArrayList<>();
+        searchSpecificPreparedSt.setString(1, "%"+searchQuery+"%");
+        if(searchSpecificPreparedSt.execute()){
+            ResultSet rs = searchSpecificPreparedSt.getResultSet();
+            productList = deserializeProducts(rs);
+        }
+        return productList;
+    }
+
 }

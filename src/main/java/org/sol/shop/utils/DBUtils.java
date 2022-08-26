@@ -12,12 +12,7 @@ public class DBUtils {
         try(Connection con = getConnection()) {
             Statement st = con.createStatement();
             // TODO: Refactor
-//            st.addBatch(
-//                    "DROP TABLE IF EXISTS `products`;\n" +
-//                    "DROP TABLE IF EXISTS `users`;\n" +
-//                    "DROP TABLE IF EXISTS `cart_products`;\n" +
-//                    "DROP TABLE IF EXISTS `orders`;\n" +
-//                    "DROP TABLE IF EXISTS `order_products`;");
+            // TODO: DEPEND FROM SYSENV OR ENV IN DB.
             st.addBatch("CREATE TABLE IF NOT EXISTS `products` (\n" +
                     "  `id` bigint AUTO_INCREMENT NOT NULL,\n" +
                     "  `price` DECIMAL(12,2) NOT NULL,\n" +
@@ -56,6 +51,24 @@ public class DBUtils {
                     "  CONSTRAINT `order_products_products_id_products_id_foreign` FOREIGN KEY (`products_id`) REFERENCES `products` (`id`)\n" +
                     ")");
             st.executeBatch();
+        }
+    }
+
+
+    public static void destructDB() throws SQLException{
+        try(Connection con = getConnection()){
+            Statement drops = con.createStatement();
+            drops.addBatch("ALTER TABLE `cart_products` DROP FOREIGN KEY `cart_products_users_id_users_id_foreign`;\n" +
+                    "ALTER TABLE `cart_products` DROP FOREIGN KEY `cart_products_products_id_products_id_foreign`;\n" +
+                    "ALTER TABLE `orders` DROP FOREIGN KEY `table3_users_eenrfs8f3_foreign`;\n" +
+                    "ALTER TABLE `order_products` DROP FOREIGN KEY `table3_orders_8j3yniybv_foreign`;\n" +
+                    "ALTER TABLE `order_products` DROP FOREIGN KEY `order_products_products_id_products_id_foreign`\n");
+            drops.addBatch("DROP TABLE IF EXISTS `products`;\n" +
+                    "DROP TABLE IF EXISTS `users`;\n" +
+                    "DROP TABLE IF EXISTS `cart_products`;\n" +
+                    "DROP TABLE IF EXISTS `orders`;\n" +
+                    "DROP TABLE IF EXISTS `order_products`");
+            drops.executeBatch();
         }
     }
 

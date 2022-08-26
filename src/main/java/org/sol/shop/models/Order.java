@@ -2,11 +2,11 @@ package org.sol.shop.models;
 
 import java.util.HashMap;
 
-public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
+public class Order{
 
     private Long id, userId;
     private OrderStatus status;
-    private HashMap<Product, Long> orderProducts; // Product: Count
+    private HashMap<Product, Long> orderProducts = new HashMap<>(); // Product: Count
 
     public Order(Long id, Long userId, OrderStatus status) {
         this.id = id;
@@ -14,7 +14,29 @@ public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
         this.status = status;
     }
 
+    public Order(Long userId, OrderStatus status) {
+        this.userId = userId;
+        this.status = status;
+    }
+
+    public Order(Long userId, OrderStatus status, HashMap<Product, Long> orderProducts) {
+        this.userId = userId;
+        this.status = status;
+        this.orderProducts = orderProducts;
+    }
+
+    public HashMap<Product, Long> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(HashMap<Product, Long> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
     public Long getId() {
+        if (id == null){
+            throw new RuntimeException("The order has not been saved to the database. ID is unavailable.");
+        }
         return id;
     }
 
@@ -24,6 +46,14 @@ public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
 
     public Long getUserId() {
         return userId;
+    }
+
+    public void addToProducts(Product product, Long count){
+        if(orderProducts.containsKey(product)){
+            orderProducts.replace(product, orderProducts.get(product)+count);
+            return;
+        }
+        orderProducts.put(product, count);
     }
 
     public OrderStatus getStatus() {
@@ -41,23 +71,22 @@ public class Order implements Entity{ // TODO: Remove "Entity" if it redundant.
 
         Order order = (Order) o;
 
-        if (!id.equals(order.id)) return false;
-        return userId.equals(order.userId);
+        return getId().equals(order.getId());
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + userId.hashCode();
-        return result;
+        return getId().hashCode();
     }
 
     public enum OrderStatus{
+        CHECKOUTED,
+        UNCONFIRMED,
+        CONFIRMED,
         PROCESSED,
         TRANSPORTING,
         CANCELLED,
         DELIVERED
-
     }
 
 }
